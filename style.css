@@ -2434,6 +2434,25 @@ html {
   .page-container, .story-container { padding-bottom: calc(80px + env(safe-area-inset-bottom)); }
 }
 
+
+/* ==========================================================================
+   NO HORIZONTAL OVERFLOW: decorative layers (rays, outlined words) are clipped
+   inside their sections so phones never widen the page and zoom out
+   ========================================================================== */
+html, body { max-width: 100%; overflow-x: clip; }
+.detail-main,
+.page-container,
+.story-container,
+.products-grid { overflow-x: clip; overflow-clip-margin: 0px; }
+.detail-main { overflow-y: visible; }
+@media (max-width: 860px) {
+  .detail-rays { width: 620px; height: 620px; }
+  .detail-can-stage { overflow-x: clip; }
+  .detail-word { font-size: clamp(3rem, 16vw, 5rem); }
+  .detail-flavor-nav { flex-wrap: wrap; }
+  .flavor-nav-dots { flex-wrap: wrap; justify-content: center; max-width: 100%; }
+}
+
 /* Reduced Motion Support */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
