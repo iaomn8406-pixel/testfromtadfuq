@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <meta name="theme-color" content="#000c1e">
+  <title>بيبسي | تجربة تصميم استثنائية</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Tajawal:wght@400;500;700;900&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="style.css">
+  <link rel="preload" as="image" href="images/can-classic-cutout.webp" fetchpriority="high">
+  
+</head>
+<body>
+  <!-- Page transition curtain -->
+  <div class="page-curtain is-revealing" aria-hidden="true"><span class="curtain-mark"></span></div>
+
+  <!-- ========================================================================
+       TOP HEADER NAVIGATION (Matching Reference)
+       Logo on Right (RTL), Navigation & Controls on Left
+       ======================================================================== -->
+  <header class="site-header">
+    <!-- Brand Logo -->
+    <a href="index.html" class="brand-logo" aria-label="Pepsi Home">
+      <span class="logo-text" data-i18n="brandName">بيبسي</span>
+      <span class="logo-badge" aria-hidden="true"></span>
+    </a>
+
+    <!-- Desktop Navigation Links -->
+    <nav class="nav-links" aria-label="Primary Navigation">
+      <a href="index.html" class="nav-link active" data-i18n="navHome">الرئيسية</a>
+      <a href="products.html" class="nav-link" data-i18n="navProducts">التشكيلة</a>
+      <a href="product.html?flavor=classic" class="nav-link" data-i18n="navDetails">تفاصيل النكهة</a>
+      <a href="about.html" class="nav-link" data-i18n="navStory">عن التجربة</a>
+    </nav>
+
+    <!-- Header Actions (Pills matching reference) -->
+    <div class="header-actions">
+      <!-- Contact / Feedback Pill (Pure Design Experiment Mock) -->
+      <button class="action-pill primary open-contact-modal" data-i18n="contactBtn">
+        تواصل
+      </button>
+
+      <!-- Sound Toggle Pill with Animated Equalizer Bars -->
+      <button id="sound-toggle-btn" class="action-pill sound-off" aria-label="Toggle Sound">
+        <span class="eq-bars" aria-hidden="true">
+          <span class="eq-bar"></span>
+          <span class="eq-bar"></span>
+          <span class="eq-bar"></span>
+          <span class="eq-bar"></span>
+        </span>
+        <span id="sound-label" data-i18n="soundOff">صامت</span>
+      </button>
+
+      <!-- Language Switcher Pill -->
+      <button id="lang-toggle-btn" class="action-pill" aria-label="Switch Language">
+        EN
+      </button>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       HERO SHOWCASE SECTION
+       Dynamic 3D Fan Arc across the screen, Radial Rays, Giant Outlined Words
+       ======================================================================== -->
+  <main class="hero-showcase">
+    <!-- Canvas for Floating Bubbles & Effervescence -->
+    <canvas id="particles-canvas" aria-hidden="true"></canvas>
+
+    <!-- Dynamic Radial Burst Rays behind the active can -->
+    <div class="rays-container" aria-hidden="true">
+      <svg id="rays-svg" class="rays-svg" viewBox="-300 -300 600 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- 24 radiating lines of alternating lengths and colors -->
+        <g stroke-linecap="round">
+          <line x1="0" y1="0" x2="0" y2="-280" stroke="var(--flavor-ray-1)" stroke-width="2.5" opacity="0.8" />
+          <line x1="0" y1="0" x2="72" y2="-270" stroke="var(--flavor-ray-2)" stroke-width="1.5" opacity="0.4" />
+          <line x1="0" y1="0" x2="140" y2="-242" stroke="var(--flavor-ray-1)" stroke-width="3" opacity="0.7" />
+          <line x1="0" y1="0" x2="198" y2="-198" stroke="var(--flavor-ray-2)" stroke-width="1.5" opacity="0.5" />
+          <line x1="0" y1="0" x2="242" y2="-140" stroke="var(--flavor-ray-1)" stroke-width="2.5" opacity="0.8" />
+          <line x1="0" y1="0" x2="270" y2="-72" stroke="var(--flavor-ray-2)" stroke-width="1.5" opacity="0.4" />
+          <line x1="0" y1="0" x2="280" y2="0" stroke="var(--flavor-ray-1)" stroke-width="3" opacity="0.75" />
+          <line x1="0" y1="0" x2="270" y2="72" stroke="var(--flavor-ray-2)" stroke-width="1.5" opacity="0.4" />
+          <line x1="0" y1="0" x2="242" y2="140" stroke="var(--flavor-ray-1)" stroke-width="2.5" opacity="0.7" />
+          <line x1="0" y1="0" x2="198" y2="198" stroke="var(--flavor-ray-2)" stroke-width="1.5" opacity="0.5" />
+          <line x1="0" y1="0" x2="140" y2="242" stroke="var(--flavor-ray-1)" stroke-width="3" opacity="0.8" />
+          <line x1="0" y1="0" x2="72" y2="270" stroke="var(--flavor-ray-2)" stroke-width="1.5" opacity="0.4" />
+          <line x1="0" y1="0" x2="0" y2="280" stroke="var(--flavor-ray-1)" stroke-width="2.5" opacity="0.75" />
+          <line x1="0" y1="0" x2="-72" y2="270" stroke="var(--flavor-ray-2)" stroke-width="1.5" opacity="0.4" />
+          <line x1="0" y1="0" x2="-140" y2="242" stroke="var(--flavor-ray-1)" stroke-width="3" opacity="0.8" />
+          <line x1="0" y1="0" x2="-198" y2="198" stroke="var(--flavor-ray-2)" stroke-width="1.5" opacity="0.5" />
+          <line x1="0" y1="0" x2="-242" y2="140" stroke="var(--flavor-ray-1)" stroke-width="2.5" opacity="0.7" />
+          <line x1="0" y1="0" x2="-270" y2="72" stroke="var(--flavor-ray-2)" stroke-width="1.5" opacity="0.4" />
+          <line x1="0" y1="0" x2="-280" y2="0" stroke="var(--flavor-ray-1)" stroke-width="3" opacity="0.75" />
+          <line x1="0" y1="0" x2="-270" y2="-72" stroke="var(--flavor-ray-2)" stroke-width="1.5" opacity="0.4" />
+          <line x1="0" y1="0" x2="-242" y2="-140" stroke="var(--flavor-ray-1)" stroke-width="2.5" opacity="0.8" />
+          <line x1="0" y1="0" x2="-198" y2="-198" stroke="var(--flavor-ray-2)" stroke-width="1.5" opacity="0.5" />
+          <line x1="0" y1="0" x2="-140" y2="-242" stroke="var(--flavor-ray-1)" stroke-width="3" opacity="0.7" />
+          <line x1="0" y1="0" x2="-72" y2="-270" stroke="var(--flavor-ray-2)" stroke-width="1.5" opacity="0.4" />
+        </g>
+      </svg>
+    </div>
+
+    <!-- Giant Outlined Arabic Typography Layer (Behind Cans - Matches ref-after-3 & ref-after-4) -->
+    <div class="bg-outlined-text" aria-hidden="true">
+      <div id="outlined-phrase" class="outlined-phrase">ما تشبه أحد</div>
+    </div>
+
+    <!-- The 3D Fan Arc Viewport & Stage -->
+    <div id="cans-viewport" class="cans-fan-viewport">
+      <!-- Circular Navigation Arrows Beside Center Can (Matching Reference) -->
+      <button id="arc-prev" class="arc-arrow prev" aria-label="Previous Flavor">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      </button>
+      <button id="arc-next" class="arc-arrow next" aria-label="Next Flavor">
+        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </button>
+
+      <!-- Stage with all 6 cans -->
+      <div id="cans-stage" class="cans-fan-stage">
+        <!-- Can 1: Classic -->
+        <div class="can-item" data-index="0">
+          <div class="can-image-container">
+            <img src="images/can-classic-cutout.webp" alt="Pepsi Classic Can" decoding="async" width="540" height="1000">
+          </div>
+        </div>
+
+        <!-- Can 2: Zero Sugar -->
+        <div class="can-item" data-index="1">
+          <div class="can-image-container">
+            <img src="images/can-zero-cutout.webp" alt="Pepsi Zero Sugar Can" decoding="async" width="540" height="1000">
+          </div>
+        </div>
+
+        <!-- Can 3: Diet -->
+        <div class="can-item" data-index="2">
+          <div class="can-image-container">
+            <img src="images/can-diet-cutout.webp" alt="Diet Pepsi Can" decoding="async" width="540" height="1000">
+          </div>
+        </div>
+
+        <!-- Can 4: Orange Twist -->
+        <div class="can-item" data-index="3">
+          <div class="can-image-container">
+            <img src="images/can-orange-cutout.webp" alt="Pepsi Orange Twist Can" decoding="async" width="540" height="1000">
+          </div>
+        </div>
+
+        <!-- Can 5: Lime Twist -->
+        <div class="can-item" data-index="4">
+          <div class="can-image-container">
+            <img src="images/can-lime-cutout.webp" alt="Pepsi Lime Twist Can" decoding="async" width="540" height="1000">
+          </div>
+        </div>
+
+        <!-- Can 6: Wild Berry -->
+        <div class="can-item" data-index="5">
+          <div class="can-image-container">
+            <img src="images/can-berry-cutout.webp" alt="Pepsi Wild Berry Can" decoding="async" width="540" height="1000">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================================================
+         BOTTOM CONTROLS BAR (Matching Reference)
+         Left: Scroll hint / Center: Flavor title, slogan, dots / Right: Counter
+         ====================================================================== -->
+    <footer class="hero-bottom-bar">
+      <!-- Left: Scroll to explore -->
+      <div class="scroll-discover">
+        <span class="scroll-line" aria-hidden="true"></span>
+        <span data-i18n="scrollDiscover">مرّر لتكتشف</span>
+      </div>
+
+      <!-- Center: Flavor Name, Slogan, Dots, Explore Button -->
+      <div class="flavor-center-panel">
+        <h1 id="flavor-title" class="flavor-title">بيبسي كلاسيك</h1>
+        <p id="flavor-slogan" class="flavor-slogan">الأصل والانتعاش الخالد.</p>
+        
+        <!-- Flavor Dots Selector Bar -->
+        <div class="flavor-dots-bar" role="tablist" aria-label="Flavor Selector">
+          <button class="flavor-dot active" style="--dot-color: #0052cc;" data-index="0" aria-label="Classic"></button>
+          <button class="flavor-dot" style="--dot-color: #1a2233;" data-index="1" aria-label="Zero Sugar"></button>
+          <button class="flavor-dot" style="--dot-color: #94a3b8;" data-index="2" aria-label="Diet"></button>
+          <button class="flavor-dot" style="--dot-color: #ff6b1a;" data-index="3" aria-label="Orange Twist"></button>
+          <button class="flavor-dot" style="--dot-color: #22c55e;" data-index="4" aria-label="Lime Twist"></button>
+          <button class="flavor-dot" style="--dot-color: #ec4899;" data-index="5" aria-label="Wild Berry"></button>
+        </div>
+
+        <a id="explore-link" href="product.html?flavor=classic" class="explore-cta">
+          <span data-i18n="exploreFlavor">استكشف النكهة ←</span>
+        </a>
+      </div>
+
+      <!-- Right: Flavor Counter (01 / 06) -->
+      <div class="flavor-counter-block">
+        <span data-i18n="flavorsLabel">النكهات</span>
+        <div class="counter-digits" aria-live="polite">
+          <span id="counter-current" class="current">٠١</span>
+          <span class="sep">/</span>
+          <span id="counter-total" class="total">٠٦</span>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+
+  <!-- ========================================================================
+       PRODUCT SPOTLIGHT (opens when a can is clicked on the homepage)
+       Product on the left, story on the right, animated flavor switching
+       ======================================================================== -->
+  <section id="spotlight" class="spotlight" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="sp-title">
+    <div class="sp-bg" aria-hidden="true"></div>
+    <div id="sp-rays" class="sp-rays" aria-hidden="true"></div>
+    <div class="sp-word-layer" aria-hidden="true"><span id="sp-word" class="sp-word"></span></div>
+
+    <button id="sp-close" class="sp-close" type="button" aria-label="Close">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+    </button>
+
+    <div class="sp-layout">
+      <div class="sp-stage">
+        <div class="sp-halo" aria-hidden="true"></div>
+        <div id="sp-can-holder" class="sp-can-holder">
+          <img id="sp-can" class="sp-can" src="images/can-classic-cutout.webp" alt="" decoding="async">
+        </div>
+        <div class="sp-floor" aria-hidden="true"></div>
+      </div>
+
+      <div class="sp-info">
+        <span id="sp-badge" class="sp-badge sp-anim" style="--s:0"></span>
+        <h2 id="sp-title" class="sp-title"></h2>
+        <p id="sp-slogan" class="sp-slogan sp-anim" style="--s:2"></p>
+        <p id="sp-desc" class="sp-desc sp-anim" style="--s:3"></p>
+
+        <div class="sp-block sp-anim" style="--s:4">
+          <h3 class="sp-block-title" data-i18n="spHighlights">أبرز المميزات</h3>
+          <ul id="sp-features" class="sp-features"></ul>
+        </div>
+
+        <div id="sp-meters" class="sp-meters sp-anim" style="--s:5"></div>
+        <div id="sp-specs" class="sp-specs sp-anim" style="--s:6"></div>
+
+        <div class="sp-actions sp-anim" style="--s:7">
+          <a id="sp-cta" class="sp-cta" href="product.html?flavor=classic">
+            <span data-i18n="spViewProduct">عرض المنتج</span>
+            <span class="sp-cta-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+          </a>
+          <button id="sp-back" class="sp-ghost" type="button" data-i18n="spBack">رجوع للرئيسية</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="sp-nav">
+      <button id="sp-prev" class="sp-arrow" type="button" aria-label="Previous">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      </button>
+      <div id="sp-thumbs" class="sp-thumbs"></div>
+      <button id="sp-next" class="sp-arrow" type="button" aria-label="Next">
+        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </button>
+      <span id="sp-counter" class="sp-counter"></span>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       CREATIVE FEEDBACK MODAL (Pure Mock - No Purchase / Non-official Experiment)
+       ======================================================================== -->
+  <div id="contact-modal" class="modal-backdrop" aria-hidden="true" role="dialog">
+    <div class="modal-dialog">
+      <button id="modal-close-btn" class="modal-close" aria-label="Close Modal">&times;</button>
+      <h3 data-i18n="contactModalTitle">تجربة التصميم الإبداعي</h3>
+      <p data-i18n="contactModalDesc">هذا نموذج تصميم ومحاكاة بصرية غير رسمية، نرحب بآرائك وتقييمك الفني للتجربة.</p>
+      
+      <form id="feedback-form">
+        <div class="form-group">
+          <label for="fb-name" data-i18n="contactName">الاسم الكريم</label>
+          <input type="text" id="fb-name" class="form-control" required placeholder="مثال: أحمد">
+        </div>
+        <div class="form-group">
+          <label for="fb-email" data-i18n="contactEmail">البريد الإلكتروني</label>
+          <input type="email" id="fb-email" class="form-control" required placeholder="name@example.com">
+        </div>
+        <div class="form-group">
+          <label for="fb-notes" data-i18n="contactNotes">ملاحظاتك وانطباعك عن التصميم</label>
+          <textarea id="fb-notes" class="form-control" rows="3" required placeholder="أخبرنا برأيك في الحركة والإضاءة..."></textarea>
+        </div>
+        <button type="submit" class="submit-btn" data-i18n="contactSubmit">إرسال التقييم الإبداعي</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast-notice" class="toast-notice" role="status" aria-live="polite"></div>
+
+  <!-- Scripts -->
+  <script src="script.js" defer></script>
+</body>
+</html>

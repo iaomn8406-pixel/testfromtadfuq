@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <meta name="theme-color" content="#07090e">
+  <title>عن تجربة التصميم | بيبسي</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Tajawal:wght@400;500;700;900&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Page transition curtain -->
+  <div class="page-curtain is-revealing" aria-hidden="true"><span class="curtain-mark"></span></div>
+
+  <!-- Top Header Navigation -->
+  <header class="site-header">
+    <a href="index.html" class="brand-logo" aria-label="Pepsi Home">
+      <span class="logo-text" data-i18n="brandName">بيبسي</span>
+      <span class="logo-badge" aria-hidden="true"></span>
+    </a>
+
+    <nav class="nav-links" aria-label="Primary Navigation">
+      <a href="index.html" class="nav-link" data-i18n="navHome">الرئيسية</a>
+      <a href="products.html" class="nav-link" data-i18n="navProducts">التشكيلة</a>
+      <a href="product.html?flavor=classic" class="nav-link" data-i18n="navDetails">تفاصيل النكهة</a>
+      <a href="about.html" class="nav-link active" data-i18n="navStory">عن التجربة</a>
+    </nav>
+
+    <div class="header-actions">
+      <button class="action-pill primary open-contact-modal" data-i18n="contactBtn">تواصل</button>
+      <button id="sound-toggle-btn" class="action-pill sound-off" aria-label="Toggle Sound">
+        <span class="eq-bars" aria-hidden="true">
+          <span class="eq-bar"></span>
+          <span class="eq-bar"></span>
+          <span class="eq-bar"></span>
+          <span class="eq-bar"></span>
+        </span>
+        <span id="sound-label" data-i18n="soundOff">صامت</span>
+      </button>
+      <button id="lang-toggle-btn" class="action-pill" aria-label="Switch Language">EN</button>
+    </div>
+  </header>
+
+  <!-- Main Story Content -->
+  <main class="story-container">
+    <article class="story-card" data-reveal>
+      <span class="catalog-badge">نموذج دراسة وتجربة تصميم</span>
+      <h1>فلسفة التصميم والتفاعل الحركي</h1>
+      
+      <p>
+        تهدف هذه التجربة إلى استكشاف آفاق جديدة في تصميم المواقع التفاعلية لعلامات المشروبات الغازية، من خلال تحويل مفاهيم الموشن جرافيكس والإعلانات السينمائية إلى واجهات ويب حية فائقة السلاسة والأداء.
+      </p>
+
+      <h2>عناصر الهوية البصرية المستهدفة</h2>
+      <p>
+        تم بناء التجربة استلهاماً من نماذج حركة الكاميرا ثلاثية الأبعاد (3D Fan Arc) وتوزيع العلب في قوس منحني تفاعلي، حيث تأخذ كل نكهة طابعها البصري الخاص: من تدرجات الألوان العميقة، والخطوط الإشعاعية المنبثقة، وجزيئات الفوران المتصاعدة، إلى الكلمات العربية الضخمة ذات الحدود الخارجية (Outlined Typography) التي تضفي عمقاً وطابعاً بصرياً فريداً.
+      </p>
+
+      <h2>التقنيات المستخدمة</h2>
+      <ul style="list-style-type: disc; padding-inline-start: 24px; color: rgba(255,255,255,0.85); line-height: 2;">
+        <li><strong>هندسة القوس ثلاثي الأبعاد:</strong> معادلات رياضية دقيقة لحساب زوايا ومسافات العلب في الفضاء ثلاثي الأبعاد مع استجابة لحركة المؤشر واللمس.</li>
+        <li><strong>التوليف الصوتي الإجرائي:</strong> محرك صوتي يعتمد على Web Audio API لتوليد أصوات فوران الصودا وحركات التمرير دون الحاجة لأي ملفات صوتية خارجية.</li>
+        <li><strong>نظام ثنائي اللغة:</strong> دعم فوري للغتين العربية (RTL) والإنجليزية (LTR) مع مراعاة كاملة لاتجاه القراءة وعناصر التحكم.</li>
+        <li><strong>أداء خفيف واستجابة شاملة:</strong> تجربة متكاملة مصممة لتعمل بسلاسة على شاشات الديسكتوب والهواتف الذكية مع احترام تفضيلات تقليل الحركة (prefers-reduced-motion).</li>
+      </ul>
+
+      <!-- Disclaimer Box -->
+      <div class="disclaimer-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+        <div>
+          <strong>إخلاء مسؤولية فنية وقانونية:</strong>
+          <p>
+            هذا المشروع هو دراسة تصميم ونموذج تجريبي غير رسمي (Unofficial Design Experiment). تم إنشاؤه فقط لاستعراض الإمكانيات الإبداعية والتقنية في تصميم واجهات المستخدم، ولا يمثل أي تواصل أو شراء حقيقي، ولا يتبع رسمياً شركة بيبسيكو (PepsiCo).
+          </p>
+        </div>
+      </div>
+
+      <div style="margin-top: 35px; display: flex; gap: 14px; flex-wrap: wrap;">
+        <a href="index.html" class="action-pill primary">خوض التجربة الرئيسية ←</a>
+        <a href="products.html" class="back-btn">استعراض التشكيلة كاملة</a>
+      </div>
+    </article>
+  </main>
+
+  <!-- Creative Feedback Modal -->
+  <div id="contact-modal" class="modal-backdrop" aria-hidden="true" role="dialog">
+    <div class="modal-dialog">
+      <button id="modal-close-btn" class="modal-close" aria-label="Close Modal">&times;</button>
+      <h3 data-i18n="contactModalTitle">تجربة التصميم الإبداعي</h3>
+      <p data-i18n="contactModalDesc">هذا نموذج تصميم ومحاكاة بصرية غير رسمية، نرحب بآرائك وتقييمك الفني للتجربة.</p>
+      
+      <form id="feedback-form">
+        <div class="form-group">
+          <label for="fb-name" data-i18n="contactName">الاسم الكريم</label>
+          <input type="text" id="fb-name" class="form-control" required placeholder="مثال: أحمد">
+        </div>
+        <div class="form-group">
+          <label for="fb-email" data-i18n="contactEmail">البريد الإلكتروني</label>
+          <input type="email" id="fb-email" class="form-control" required placeholder="name@example.com">
+        </div>
+        <div class="form-group">
+          <label for="fb-notes" data-i18n="contactNotes">ملاحظاتك وانطباعك عن التصميم</label>
+          <textarea id="fb-notes" class="form-control" rows="3" required placeholder="أخبرنا برأيك في الحركة والإضاءة..."></textarea>
+        </div>
+        <button type="submit" class="submit-btn" data-i18n="contactSubmit">إرسال التقييم الإبداعي</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast-notice" class="toast-notice" role="status" aria-live="polite"></div>
+
+  <!-- Scripts -->
+  <script src="script.js" defer></script>
+</body>
+</html>

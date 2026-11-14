@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <meta name="theme-color" content="#000c1e">
+  <title>تفاصيل النكهة | بيبسي</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Tajawal:wght@400;500;700;900&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="style.css">
+  
+</head>
+<body class="product-detail-view">
+  <!-- Page transition curtain -->
+  <div class="page-curtain is-revealing" aria-hidden="true"><span class="curtain-mark"></span></div>
+
+  <!-- Top Header Navigation -->
+  <header class="site-header">
+    <a href="index.html" class="brand-logo" aria-label="Pepsi Home">
+      <span class="logo-text" data-i18n="brandName">بيبسي</span>
+      <span class="logo-badge" aria-hidden="true"></span>
+    </a>
+
+    <nav class="nav-links" aria-label="Primary Navigation">
+      <a href="index.html" class="nav-link" data-i18n="navHome">الرئيسية</a>
+      <a href="products.html" class="nav-link" data-i18n="navProducts">التشكيلة</a>
+      <a href="product.html?flavor=classic" class="nav-link active" data-i18n="navDetails">تفاصيل النكهة</a>
+      <a href="about.html" class="nav-link" data-i18n="navStory">عن التجربة</a>
+    </nav>
+
+    <div class="header-actions">
+      <button class="action-pill primary open-contact-modal" data-i18n="contactBtn">تواصل</button>
+      <button id="sound-toggle-btn" class="action-pill sound-off" aria-label="Toggle Sound">
+        <span class="eq-bars" aria-hidden="true">
+          <span class="eq-bar"></span>
+          <span class="eq-bar"></span>
+          <span class="eq-bar"></span>
+          <span class="eq-bar"></span>
+        </span>
+        <span id="sound-label" data-i18n="soundOff">صامت</span>
+      </button>
+      <button id="lang-toggle-btn" class="action-pill" aria-label="Switch Language">EN</button>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       PRODUCT DETAIL SHOWCASE
+       Matching Reference: ref-after-2-cola-rays.png
+       Giant Tilted Can in center, dynamic radial rays, side info panel
+       ======================================================================== -->
+  <main class="detail-main">
+    <!-- Center / Left Stage: Tilted Hero Can with Radial Burst Rays -->
+    <div class="detail-can-stage">
+      <div class="detail-word-layer" aria-hidden="true"><span id="detail-word" class="detail-word"></span></div>
+      <div class="detail-rays" aria-hidden="true">
+        <svg class="rays-svg" viewBox="-300 -300 600 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g stroke-linecap="round">
+            <line x1="0" y1="0" x2="0" y2="-280" stroke="var(--flavor-ray-1)" stroke-width="3" opacity="0.8" />
+            <line x1="0" y1="0" x2="80" y2="-260" stroke="var(--flavor-ray-2)" stroke-width="1.5" opacity="0.5" />
+            <line x1="0" y1="0" x2="160" y2="-220" stroke="var(--flavor-ray-1)" stroke-width="2.5" opacity="0.8" />
+            <line x1="0" y1="0" x2="220" y2="-160" stroke="var(--flavor-ray-2)" stroke-width="1.5" opacity="0.5" />
+            <line x1="0" y1="0" x2="260" y2="-80" stroke="var(--flavor-ray-1)" stroke-width="3" opacity="0.75" />
+            <line x1="0" y1="0" x2="280" y2="0" stroke="var(--flavor-ray-2)" stroke-width="1.5" opacity="0.5" />
+            <line x1="0" y1="0" x2="260" y2="80" stroke="var(--flavor-ray-1)" stroke-width="2.5" opacity="0.8" />
+            <line x1="0" y1="0" x2="220" y2="160" stroke="var(--flavor-ray-2)" stroke-width="1.5" opacity="0.5" />
+            <line x1="0" y1="0" x2="160" y2="220" stroke="var(--flavor-ray-1)" stroke-width="3" opacity="0.8" />
+            <line x1="0" y1="0" x2="80" y2="260" stroke="var(--flavor-ray-2)" stroke-width="1.5" opacity="0.5" />
+            <line x1="0" y1="0" x2="0" y2="280" stroke="var(--flavor-ray-1)" stroke-width="2.5" opacity="0.8" />
+            <line x1="0" y1="0" x2="-80" y2="260" stroke="var(--flavor-ray-2)" stroke-width="1.5" opacity="0.5" />
+            <line x1="0" y1="0" x2="-160" y2="220" stroke="var(--flavor-ray-1)" stroke-width="3" opacity="0.8" />
+            <line x1="0" y1="0" x2="-220" y2="160" stroke="var(--flavor-ray-2)" stroke-width="1.5" opacity="0.5" />
+            <line x1="0" y1="0" x2="-260" y2="80" stroke="var(--flavor-ray-1)" stroke-width="2.5" opacity="0.8" />
+            <line x1="0" y1="0" x2="-280" y2="0" stroke="var(--flavor-ray-2)" stroke-width="1.5" opacity="0.5" />
+            <line x1="0" y1="0" x2="-260" y2="-80" stroke="var(--flavor-ray-1)" stroke-width="3" opacity="0.75" />
+            <line x1="0" y1="0" x2="-220" y2="-160" stroke="var(--flavor-ray-2)" stroke-width="1.5" opacity="0.5" />
+            <line x1="0" y1="0" x2="-160" y2="-220" stroke="var(--flavor-ray-1)" stroke-width="2.5" opacity="0.8" />
+            <line x1="0" y1="0" x2="-80" y2="-260" stroke="var(--flavor-ray-2)" stroke-width="1.5" opacity="0.5" />
+          </g>
+        </svg>
+      </div>
+
+      <!-- Hero Tilted Can Wrapper -->
+      <div id="detail-can-wrap" class="detail-can-wrap">
+        <img id="detail-can-img" src="images/can-classic-cutout.webp" alt="Pepsi Can Showcase" width="540" height="1000" decoding="async" fetchpriority="high">
+      </div>
+    </div>
+
+    <!-- Right / Information Panel -->
+    <div class="detail-info-panel">
+      <div class="detail-badge-row" style="--s:0">
+        <span id="detail-badge" class="flavor-badge-pill">النكهة ٠١</span>
+      </div>
+
+      <h1 id="detail-title" class="detail-flavor-name" style="--s:1">بيبسي كلاسيك</h1>
+      <p id="detail-slogan" class="detail-flavor-slogan" style="--s:2">الأصل والانتعاش الخالد.</p>
+      
+      <p id="detail-desc" class="detail-narrative" style="--s:3">
+        المذاق الأيقوني الأصيل الذي صنع التاريخ. توازن ساحر بين الفوران الصاخب وحلاوة الكولا المنعشة التي تأسر الحواس مع كل رشفة مثلجة.
+      </p>
+
+      <!-- Sensory Meter Grid -->
+      <div class="sensory-grid" style="--s:4">
+        <div class="sensory-card">
+          <strong data-i18n="sensorySweet">الحلاوة</strong>
+          <div class="sensory-bar"><div id="sweet-fill" class="sensory-fill" style="width: 85%;"></div></div>
+        </div>
+        <div class="sensory-card">
+          <strong data-i18n="sensoryFizz">الفوران</strong>
+          <div class="sensory-bar"><div id="fizz-fill" class="sensory-fill" style="width: 95%;"></div></div>
+        </div>
+        <div class="sensory-card">
+          <strong data-i18n="sensoryZest">الانتعاش الحمضي</strong>
+          <div class="sensory-bar"><div id="zest-fill" class="sensory-fill" style="width: 40%;"></div></div>
+        </div>
+      </div>
+
+      <!-- Specs & Serving -->
+      <div class="detail-specs" style="--s:5">
+        <div class="detail-spec"><span data-i18n="volumeLabel">الحجم الصافي</span><strong id="volume-val">330 ml</strong></div>
+        <div class="detail-spec"><span data-i18n="caloriesLabel">السعرات الحرارية</span><strong id="calories-val">150 kcal</strong></div>
+        <div class="detail-spec wide"><span data-i18n="servingTitle">طريقة التقديم المثالية</span><strong id="serving-val">يُقدّم مثلجاً عند ٤ درجات مئوية</strong></div>
+      </div>
+
+      <!-- Actions -->
+      <div class="detail-actions" style="--s:6">
+        <a href="index.html" class="back-btn" data-i18n="backToHome">← العودة للرئيسية</a>
+        <a href="products.html" class="action-pill primary" data-i18n="browseLineup">تصفح التشكيلة الكاملة</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Quick Flavor Switcher Bar at Bottom of Detail View -->
+  <footer class="detail-flavor-nav">
+    <div class="detail-nav-label" data-i18n="allFlavors">
+      جميع النكهات
+    </div>
+    <div id="detail-flavor-nav-pills" class="flavor-nav-dots">
+      <!-- Populated dynamically by script.js -->
+    </div>
+  </footer>
+
+  <!-- Creative Feedback Modal -->
+  <div id="contact-modal" class="modal-backdrop" aria-hidden="true" role="dialog">
+    <div class="modal-dialog">
+      <button id="modal-close-btn" class="modal-close" aria-label="Close Modal">&times;</button>
+      <h3 data-i18n="contactModalTitle">تجربة التصميم الإبداعي</h3>
+      <p data-i18n="contactModalDesc">هذا نموذج تصميم ومحاكاة بصرية غير رسمية، نرحب بآرائك وتقييمك الفني للتجربة.</p>
+      
+      <form id="feedback-form">
+        <div class="form-group">
+          <label for="fb-name" data-i18n="contactName">الاسم الكريم</label>
+          <input type="text" id="fb-name" class="form-control" required placeholder="مثال: أحمد">
+        </div>
+        <div class="form-group">
+          <label for="fb-email" data-i18n="contactEmail">البريد الإلكتروني</label>
+          <input type="email" id="fb-email" class="form-control" required placeholder="name@example.com">
+        </div>
+        <div class="form-group">
+          <label for="fb-notes" data-i18n="contactNotes">ملاحظاتك وانطباعك عن التصميم</label>
+          <textarea id="fb-notes" class="form-control" rows="3" required placeholder="أخبرنا برأيك في الحركة والإضاءة..."></textarea>
+        </div>
+        <button type="submit" class="submit-btn" data-i18n="contactSubmit">إرسال التقييم الإبداعي</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast-notice" class="toast-notice" role="status" aria-live="polite"></div>
+
+  <!-- Scripts -->
+  <script src="script.js" defer></script>
+</body>
+</html>

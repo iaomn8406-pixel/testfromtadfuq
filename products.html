@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <meta name="theme-color" content="#07090e">
+  <title>تشكيلة بيبسي | عالم من الانتعاش المتجدد</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Tajawal:wght@400;500;700;900&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Page transition curtain -->
+  <div class="page-curtain is-revealing" aria-hidden="true"><span class="curtain-mark"></span></div>
+
+  <!-- Top Header Navigation -->
+  <header class="site-header">
+    <a href="index.html" class="brand-logo" aria-label="Pepsi Home">
+      <span class="logo-text" data-i18n="brandName">بيبسي</span>
+      <span class="logo-badge" aria-hidden="true"></span>
+    </a>
+
+    <nav class="nav-links" aria-label="Primary Navigation">
+      <a href="index.html" class="nav-link" data-i18n="navHome">الرئيسية</a>
+      <a href="products.html" class="nav-link active" data-i18n="navProducts">التشكيلة</a>
+      <a href="product.html?flavor=classic" class="nav-link" data-i18n="navDetails">تفاصيل النكهة</a>
+      <a href="about.html" class="nav-link" data-i18n="navStory">عن التجربة</a>
+    </nav>
+
+    <div class="header-actions">
+      <button class="action-pill primary open-contact-modal" data-i18n="contactBtn">تواصل</button>
+      <button id="sound-toggle-btn" class="action-pill sound-off" aria-label="Toggle Sound">
+        <span class="eq-bars" aria-hidden="true">
+          <span class="eq-bar"></span>
+          <span class="eq-bar"></span>
+          <span class="eq-bar"></span>
+          <span class="eq-bar"></span>
+        </span>
+        <span id="sound-label" data-i18n="soundOff">صامت</span>
+      </button>
+      <button id="lang-toggle-btn" class="action-pill" aria-label="Switch Language">EN</button>
+    </div>
+  </header>
+
+  <!-- Page Main Content -->
+  <main class="page-container">
+    <section class="catalog-header" data-reveal>
+      <span class="catalog-badge" data-i18n="exclusiveLineup">تشكيلة بيبسي الاستثنائية</span>
+      <h1 class="catalog-title" data-i18n="lineupTitle">عالم من الانتعاش المتجدد</h1>
+      <p class="catalog-subtitle" data-i18n="lineupSubtitle">
+        استكشف ٦ نكهات مميزة صُممت لتمنحك أقصى درجات الطاقة والانتعاش المثلج في كل لحظة.
+      </p>
+    </section>
+
+    <!-- Filter Bar -->
+    <div class="filter-bar" role="tablist" data-reveal style="--rd:120ms">
+      <button class="filter-btn active" data-filter="all" data-i18n="allFlavors">جميع النكهات</button>
+      <button class="filter-btn" data-filter="classic" data-i18n="classicDiet">كلاسيك ودايت</button>
+      <button class="filter-btn" data-filter="zero" data-i18n="zeroSugar">زيرو سكر</button>
+      <button class="filter-btn" data-filter="fruit" data-i18n="fruitTwist">نكهات فواكه</button>
+    </div>
+
+    <!-- Products Grid (Populated dynamically) -->
+    <div id="catalog-products-grid" class="products-grid">
+    </div>
+  </main>
+
+  <!-- Creative Feedback Modal -->
+  <div id="contact-modal" class="modal-backdrop" aria-hidden="true" role="dialog">
+    <div class="modal-dialog">
+      <button id="modal-close-btn" class="modal-close" aria-label="Close Modal">&times;</button>
+      <h3 data-i18n="contactModalTitle">تجربة التصميم الإبداعي</h3>
+      <p data-i18n="contactModalDesc">هذا نموذج تصميم ومحاكاة بصرية غير رسمية، نرحب بآرائك وتقييمك الفني للتجربة.</p>
+      
+      <form id="feedback-form">
+        <div class="form-group">
+          <label for="fb-name" data-i18n="contactName">الاسم الكريم</label>
+          <input type="text" id="fb-name" class="form-control" required placeholder="مثال: أحمد">
+        </div>
+        <div class="form-group">
+          <label for="fb-email" data-i18n="contactEmail">البريد الإلكتروني</label>
+          <input type="email" id="fb-email" class="form-control" required placeholder="name@example.com">
+        </div>
+        <div class="form-group">
+          <label for="fb-notes" data-i18n="contactNotes">ملاحظاتك وانطباعك عن التصميم</label>
+          <textarea id="fb-notes" class="form-control" rows="3" required placeholder="أخبرنا برأيك في الحركة والإضاءة..."></textarea>
+        </div>
+        <button type="submit" class="submit-btn" data-i18n="contactSubmit">إرسال التقييم الإبداعي</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast-notice" class="toast-notice" role="status" aria-live="polite"></div>
+
+  <!-- Scripts -->
+  <script src="script.js" defer></script>
+</body>
+</html>
