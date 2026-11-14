@@ -383,6 +383,98 @@ class SodaAudioEngine {
       setTimeout(() => this.playFizz(), 70);
     } catch (e) {}
   }
+
+  // Short filtered noise burst (the "psst" of a can opening)
+  noiseBurst(duration, freq, q, gainValue, type = 'highpass') {
+    const ctx = this.ctx;
+    const len = Math.floor(ctx.sampleRate * duration);
+    const buffer = ctx.createBuffer(1, len, ctx.sampleRate);
+    const data = buffer.getChannelData(0);
+    for (let i = 0; i < len; i++) data[i] = (Math.random() * 2 - 1) * (1 - i / len);
+    const src = ctx.createBufferSource();
+    src.buffer = buffer;
+    const filter = ctx.createBiquadFilter();
+    filter.type = type;
+    filter.frequency.value = freq;
+    filter.Q.value = q;
+    const gain = ctx.createGain();
+    gain.gain.setValueAtTime(gainValue, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+    src.connect(filter); filter.connect(gain); gain.connect(ctx.destination);
+    src.start();
+  }
+
+  tone(type, from, to, duration, gainValue, delay = 0) {
+    const ctx = this.ctx;
+    const t = ctx.currentTime + delay;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = type;
+    osc.frequency.setValueAtTime(from, t);
+    osc.frequency.exponentialRampToValueAtTime(to, t + duration);
+    gain.gain.setValueAtTime(0.0001, t);
+    gain.gain.exponentialRampToValueAtTime(gainValue, t + 0.01);
+    gain.gain.exponentialRampToValueAtTime(0.0001, t + duration);
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.start(t);
+    osc.stop(t + duration + 0.02);
+  }
+
+  // Tiny UI click for buttons / menu / language
+  playTick() {
+    if (!state.sound) return;
+    this.init();
+    if (!this.ctx) return;
+    try { this.tone('triangle', 1400, 900, 0.05, 0.08); } catch (e) {}
+  }
+
+  // Opening a product: can "psst" + pop + rising shimmer
+  playOpen() {
+    if (!state.sound) return;
+    this.init();
+    if (!this.ctx) return;
+    try {
+      this.noiseBurst(0.35, 2500, 0.7, 0.22);
+      this.tone('triangle', 680, 200, 0.09, 0.22, 0.04);
+      this.tone('sine', 420, 1260, 0.5, 0.05, 0.12);
+      setTimeout(() => this.playFizz(), 160);
+    } catch (e) {}
+  }
+
+  // Closing a product: soft descending whoosh + landing tap
+  playClose() {
+    if (!state.sound) return;
+    this.init();
+    if (!this.ctx) return;
+    try {
+      this.tone('sine', 520, 140, 0.4, 0.08);
+      this.noiseBurst(0.25, 900, 0.8, 0.08, 'lowpass');
+      this.tone('triangle', 260, 120, 0.08, 0.12, 0.5);
+    } catch (e) {}
+  }
+
+  // Switching flavors inside the spotlight / product page
+  playSwitch() {
+    if (!state.sound) return;
+    this.init();
+    if (!this.ctx) return;
+    try {
+      this.noiseBurst(0.28, 1800, 1.2, 0.09, 'bandpass');
+      this.tone('sine', 220, 520, 0.22, 0.07);
+      this.tone('sine', 660, 990, 0.18, 0.04, 0.38);
+    } catch (e) {}
+  }
+
+  // Page change: deeper sweep under the curtain
+  playPage() {
+    if (!state.sound) return;
+    this.init();
+    if (!this.ctx) return;
+    try {
+      this.noiseBurst(0.5, 600, 0.9, 0.12, 'lowpass');
+      this.tone('sine', 160, 420, 0.45, 0.08);
+    } catch (e) {}
+  }
 }
 
 const audio = new SodaAudioEngine();
@@ -492,7 +584,10 @@ class ParticlesEngine {
 
     this.resize();
     let resizeTimer;
+    let lastW = window.innerWidth;
     window.addEventListener('resize', () => {
+      if (window.innerWidth === lastW && window.innerWidth < 860) return;
+      lastW = window.innerWidth;
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(() => this.resize(), 150);
     });
@@ -627,7 +722,6 @@ class CansArcCarousel {
     this.items.forEach((item, index) => {
       item.addEventListener('click', () => {
         if (this.spotlightOpen) return;
-        audio.playPop();
         if (state.currentIndex !== index) {
           this.goTo(index, true);
           setTimeout(() => window.spotlight && window.spotlight.open(index), 740);
@@ -699,7 +793,10 @@ class CansArcCarousel {
     }, { passive: true });
 
     let resizeTimer;
+    let lastW = window.innerWidth;
     window.addEventListener('resize', () => {
+      if (window.innerWidth === lastW) return; // height-only change (mobile address bar)
+      lastW = window.innerWidth;
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(() => this.updateLayout(), 120);
     });
@@ -999,6 +1096,7 @@ class ProductSpotlight {
     window.particlesEngine && window.particlesEngine.setPaused(false);
     this.el.setAttribute('aria-hidden', 'false');
     this.el.classList.add('is-open');
+    this.el.scrollTop = 0;
     this.clearCanAnims();
     this.canHolder.classList.add('hidden-can');
 
@@ -1007,6 +1105,7 @@ class ProductSpotlight {
     const to = this.canImg.getBoundingClientRect();
 
     item.classList.add('lifted');
+    audio.playOpen();
     setTimeout(() => this.el.classList.add('is-in'), 420);
     setTimeout(() => this.runMeters(), 1100);
 
@@ -1045,6 +1144,7 @@ class ProductSpotlight {
     item.classList.add('lifted');
 
     this.clearCanAnims();
+    this.el.scrollTop = 0;
     const from = this.canImg.getBoundingClientRect();
     const target = item.querySelector('img');
 
@@ -1065,6 +1165,7 @@ class ProductSpotlight {
 
     this.el.classList.remove('is-in', 'is-idle');
     this.el.classList.add('is-closing');
+    audio.playClose();
     this.canHolder.classList.add('hidden-can');
     hero && hero.classList.remove('spot-active');
     const clone = await this.fly(this.canImg.currentSrc || this.canImg.src, from, to, { duration: prefersReducedMotion ? 0 : 780, arc: 5 });
@@ -1087,9 +1188,10 @@ class ProductSpotlight {
     if (newIndex === this.index) return;
     this.busy = true;
     if (!dir) dir = newIndex > this.index ? 1 : -1;
-    audio.playWhoosh();
+    audio.playSwitch();
 
     // 1. Outgoing: text collapses, can spins away
+    if (this.el.scrollTop > 0) this.el.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
     this.el.classList.remove('is-in', 'is-idle');
     this.el.classList.add('is-swapping');
     await playTo(this.canHolder, [
@@ -1147,6 +1249,8 @@ const i18n = {
     contactBtn: 'تواصل',
     soundOn: 'صوت',
     soundOff: 'صامت',
+    soundEnabled: 'تم تفعيل الأصوات 🔊',
+    soundDisabled: 'تم كتم الأصوات',
     langToggle: 'EN',
     scrollDiscover: 'مرّر لتكتشف',
     flavorsLabel: 'النكهات',
@@ -1190,6 +1294,8 @@ const i18n = {
     contactBtn: 'Contact',
     soundOn: 'Sound',
     soundOff: 'Mute',
+    soundEnabled: 'Sound effects on 🔊',
+    soundDisabled: 'Sound effects off',
     langToggle: 'عربي',
     scrollDiscover: 'Scroll to explore',
     flavorsLabel: 'Flavors',
@@ -1270,7 +1376,14 @@ function initSoundToggle() {
     state.sound = !state.sound;
     try { localStorage.setItem('pepsi_sound', String(state.sound)); } catch (e) {}
     updateSoundUI();
-    if (state.sound) audio.playFizz();
+    if (state.sound) audio.playOpen();
+    const toast = document.getElementById('toast-notice');
+    if (toast) {
+      toast.textContent = state.sound ? tr('soundEnabled') : tr('soundDisabled');
+      toast.classList.add('show');
+      clearTimeout(toast._t);
+      toast._t = setTimeout(() => toast.classList.remove('show'), 1800);
+    }
   });
 
   updateSoundUI();
@@ -1288,6 +1401,7 @@ function initContactModal() {
   if (!backdrop) return;
 
   const openModal = () => {
+    audio.playTick();
     backdrop.classList.add('open');
     backdrop.setAttribute('aria-hidden', 'false');
     const first = $('input', backdrop);
@@ -1440,7 +1554,7 @@ class ProductDetailPage {
     if (this.busy || i === this.index) return;
     this.busy = true;
     const dir = i > this.index ? 1 : -1;
-    audio.playWhoosh();
+    audio.playSwitch();
 
     this.panel && this.panel.classList.remove('is-in');
     this.panel && this.panel.classList.add('is-out');
@@ -1568,7 +1682,7 @@ function initPageTransitions() {
     if (prefersReducedMotion) { location.href = url.href; return; }
     curtain.classList.remove('is-revealing');
     curtain.classList.add('is-leaving');
-    audio.playWhoosh();
+    audio.playPage();
     setTimeout(() => (location.href = url.href), 520);
   });
 
@@ -1593,13 +1707,37 @@ function initMobileMenu() {
   btn.setAttribute('aria-expanded', 'false');
   btn.innerHTML = '<span class="menu-lines" aria-hidden="true"><span></span><span></span></span>';
   actions.appendChild(btn);
-  btn.addEventListener('click', () => {
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation();
     const open = header.classList.toggle('menu-open');
     btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    audio.playTick();
   });
   nav.addEventListener('click', (e) => {
     if (e.target.closest('a')) header.classList.remove('menu-open');
   });
+  // Close when tapping outside
+  document.addEventListener('click', (e) => {
+    if (header.classList.contains('menu-open') && !e.target.closest('.nav-links')) {
+      header.classList.remove('menu-open');
+      btn.setAttribute('aria-expanded', 'false');
+    }
+  });
+
+  // On phones the contact pill moves into the menu
+  const contact = $('.open-contact-modal', actions);
+  if (contact) {
+    const item = document.createElement('button');
+    item.type = 'button';
+    item.className = 'nav-link nav-contact';
+    item.setAttribute('data-i18n', 'contactBtn');
+    item.textContent = tr('contactBtn');
+    item.addEventListener('click', () => {
+      header.classList.remove('menu-open');
+      contact.click();
+    });
+    nav.appendChild(item);
+  }
 }
 
 function initReveals() {
@@ -1630,7 +1768,10 @@ document.addEventListener('DOMContentLoaded', () => {
   document.body.classList.toggle('ltr', state.lang === 'en');
 
   const langBtn = document.getElementById('lang-toggle-btn');
-  langBtn && langBtn.addEventListener('click', () => setLanguage(state.lang === 'ar' ? 'en' : 'ar'));
+  langBtn && langBtn.addEventListener('click', () => {
+    audio.playTick();
+    setLanguage(state.lang === 'ar' ? 'en' : 'ar');
+  });
 
   initSoundToggle();
   initContactModal();

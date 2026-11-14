@@ -2074,7 +2074,12 @@ body:not(.ltr) .sp-cta:hover .sp-cta-icon { transform: translateX(-4px); }
 body.spotlight-open { overflow: hidden; }
 
 @media (max-width: 860px) {
-  .spotlight { overflow-y: auto; }
+  .spotlight { overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
+  /* No scrolling while the can is flying in / out or swapping */
+  .spotlight:not(.is-idle) { overflow-y: hidden; }
+  /* Backdrop stays put while the details scroll */
+  .sp-bg { position: fixed; }
+  .sp-rays { position: fixed; }
   .sp-layout {
     position: relative;
     inset: auto;
@@ -2161,11 +2166,58 @@ body.spotlight-open { overflow: hidden; }
 @keyframes markPulse { from { transform: rotate(-15deg) scale(0.9); } to { transform: rotate(-15deg) scale(1.05); } }
 @keyframes markOut { to { opacity: 0; transform: rotate(-15deg) scale(0.6); } }
 
-/* Mobile menu toggle */
+/* Mobile menu toggle (only shown below 860px) */
 .menu-toggle {
-  display: none;
   width: 38px;
   padding: 0;
+}
+
+.nav-contact { display: none; }
+
+@media (min-width: 861px) {
+  .menu-toggle { display: none; }
+}
+
+@media (max-width: 860px) {
+  .menu-toggle { display: inline-flex; }
+  .nav-contact { display: block; text-align: start; font: inherit; font-weight: 600; }
+  .header-actions .open-contact-modal { display: none; }
+}
+
+/* ==========================================================================
+   HOMEPAGE LOCK: the hero is an app-like screen, it never scrolls.
+   Keeps mobile browsers from showing/hiding the address bar, which resized
+   the page and made the arc jump.
+   ========================================================================== */
+body.home {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+body.home .hero-showcase {
+  height: 100%;
+  min-height: 0;
+  touch-action: pan-x pan-y;
+}
+
+@media (max-width: 640px) {
+  body.home .hero-showcase { min-height: 0; padding-bottom: 0; }
+  body.home .cans-fan-viewport { top: 44%; height: min(380px, 52%); }
+  body.home .can-item { height: min(310px, 44vh); }
+  body.home .hero-bottom-bar { gap: 8px; padding-bottom: max(16px, env(safe-area-inset-bottom)); }
+  body.home .flavor-counter-block { display: none; }
+}
+
+/* Hover effects only on devices that really hover (no sticky hover after a tap) */
+@media (hover: none) {
+  .can-item.active:hover .can-image-container img { transform: none; }
+  .can-item:hover:not(.active) { filter: brightness(var(--b, 1)); }
+  .product-card:hover { transform: none; }
+  .product-card:hover .card-can-wrap { transform: none; }
+  .nav-link:hover, .action-pill:hover, .arc-arrow:hover { transform: none; }
+  .arc-arrow:hover { transform: translateY(-50%); }
 }
 
 .menu-lines {
