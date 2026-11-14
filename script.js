@@ -411,6 +411,26 @@ function animateEl(el, keyframes, options) {
   return anim.finished.then(() => anim).catch(() => anim);
 }
 
+// Animate to a state that is written to inline style first, so nothing depends on
+// a filling animation (avoids stale opacity on GPU-composited layers)
+function playTo(el, keyframes, options) {
+  if (!el) return Promise.resolve();
+  el.getAnimations && el.getAnimations().forEach((a) => a.cancel());
+  const last = keyframes[keyframes.length - 1];
+  if ('opacity' in last) el.style.opacity = String(last.opacity);
+  if ('transform' in last) el.style.transform = last.transform;
+  if (!el.animate || prefersReducedMotion) return Promise.resolve();
+  const anim = el.animate(keyframes, { ...options, fill: 'none' });
+  return anim.finished.catch(() => {});
+}
+
+function resetInline(el) {
+  if (!el) return;
+  el.getAnimations && el.getAnimations().forEach((a) => a.cancel());
+  el.style.opacity = '';
+  el.style.transform = '';
+}
+
 // Apply the flavor identity (CSS custom properties are registered with @property,
 // so the gradients interpolate smoothly between flavors)
 function applyTheme(data) {
@@ -1000,7 +1020,7 @@ class ProductSpotlight {
   }
 
   clearCanAnims() {
-    if (this.canHolder.getAnimations) this.canHolder.getAnimations().forEach((a) => a.cancel());
+    resetInline(this.canHolder);
   }
 
   // Run a request that arrived while an animation was playing
@@ -1072,7 +1092,7 @@ class ProductSpotlight {
     // 1. Outgoing: text collapses, can spins away
     this.el.classList.remove('is-in', 'is-idle');
     this.el.classList.add('is-swapping');
-    await animateEl(this.canHolder, [
+    await playTo(this.canHolder, [
       { transform: 'translateX(0) rotate(0deg) scale(1)', opacity: 1 },
       { transform: `translateX(${-dir * 140}px) rotate(${-dir * 16}deg) scale(0.82)`, opacity: 0 }
     ], { duration: 380, easing: 'cubic-bezier(0.55, 0, 0.9, 0.35)' });
@@ -1092,7 +1112,8 @@ class ProductSpotlight {
     this.el.classList.add('is-in');
     setTimeout(() => this.runMeters(), 500);
     audio.playFizz();
-    await animateEl(this.canHolder, [
+    this.canHolder.classList.remove('hidden-can');
+    await playTo(this.canHolder, [
       { transform: `translateX(${dir * 170}px) rotate(${dir * 18}deg) scale(0.82)`, opacity: 0 },
       { transform: `translateX(${-dir * 12}px) rotate(${-dir * 3}deg) scale(1.03)`, opacity: 1, offset: 0.7 },
       { transform: 'translateX(0) rotate(0deg) scale(1)', opacity: 1 }
@@ -1424,7 +1445,7 @@ class ProductDetailPage {
     this.panel && this.panel.classList.remove('is-in');
     this.panel && this.panel.classList.add('is-out');
     this.resetMeters();
-    await animateEl(this.img, [
+    await playTo(this.img, [
       { transform: 'translateY(0) rotate(0deg) scale(1)', opacity: 1 },
       { transform: `translateY(-40px) rotate(${-dir * 18}deg) scale(0.8)`, opacity: 0 }
     ], { duration: 380, easing: 'cubic-bezier(0.55, 0, 0.9, 0.35)' });
@@ -1440,12 +1461,12 @@ class ProductDetailPage {
     this.panel && this.panel.classList.add('is-in');
     this.runMeters();
     audio.playFizz();
-    await animateEl(this.img, [
+    await playTo(this.img, [
       { transform: `translateY(60px) rotate(${dir * 16}deg) scale(0.8)`, opacity: 0 },
       { transform: `translateY(-8px) rotate(${-dir * 2}deg) scale(1.03)`, opacity: 1, offset: 0.7 },
       { transform: 'translateY(0) rotate(0deg) scale(1)', opacity: 1 }
     ], { duration: 720, easing: EASE_OUT });
-    if (this.img.getAnimations) this.img.getAnimations().forEach((a) => a.cancel());
+    resetInline(this.img);
     this.busy = false;
   }
 }
