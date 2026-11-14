@@ -2453,6 +2453,15 @@ html, body { max-width: 100%; overflow-x: clip; }
   .flavor-nav-dots { flex-wrap: wrap; justify-content: center; max-width: 100%; }
 }
 
+/* Outlined words are measured and fitted by JS (fitText) */
+.detail-word, .sp-word, .outlined-phrase { display: inline-block; max-width: none; }
+.bg-outlined-text { display: flex; justify-content: center; }
+
+/* Homepage title: room for Arabic descenders (dots under ي) above the slogan */
+.flavor-title { line-height: 1.3; padding-bottom: 0.08em; }
+.flavor-slogan { margin-top: 4px; line-height: 1.6; }
+.flavor-center-panel { gap: 6px; }
+
 /* Reduced Motion Support */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

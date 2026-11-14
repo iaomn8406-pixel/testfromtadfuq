@@ -541,6 +541,28 @@ function applyTheme(data) {
   if (meta) meta.setAttribute('content', c.bgStart);
 }
 
+// Shrink a big outlined word until it fits its layer (CSS size is the maximum)
+function fitText(el, ratio = 0.94) {
+  if (!el || !el.parentElement) return;
+  el.style.fontSize = '';
+  const box = el.parentElement.clientWidth * ratio;
+  const w = el.offsetWidth;
+  if (!box || !w || w <= box) return;
+  const base = parseFloat(getComputedStyle(el).fontSize);
+  el.style.fontSize = `${Math.floor(base * (box / w))}px`;
+}
+
+const FIT_TARGETS = ['#outlined-phrase', '#sp-word', '#detail-word'];
+function fitAllWords() {
+  FIT_TARGETS.forEach((sel) => fitText(document.querySelector(sel)));
+}
+let fitTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(fitTimer);
+  fitTimer = setTimeout(fitAllWords, 120);
+});
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitAllWords);
+
 function toArabicDigits(str) {
   return String(str).replace(/[0-9]/g, (d) => '٠١٢٣٤٥٦٧٨٩'[d]);
 }
@@ -882,6 +904,7 @@ class CansArcCarousel {
         clearTimeout(this.phraseTimer);
         this.phraseTimer = setTimeout(() => {
           this.outlinedPhrase.textContent = pick(activeData, 'phrase');
+          fitText(this.outlinedPhrase);
           this.outlinedPhrase.classList.remove('fade-out');
         }, 220);
       }
@@ -1008,7 +1031,10 @@ class ProductSpotlight {
 
   fill(d) {
     this.el.style.setProperty('--sp-accent', d.colors.accent);
-    if (this.word) this.word.textContent = pick(d, 'phrase');
+    if (this.word) {
+      this.word.textContent = pick(d, 'phrase');
+      requestAnimationFrame(() => fitText(this.word));
+    }
     this.badge.textContent = pick(d, 'badge');
 
     // Title split into words for a masked rise reveal
@@ -1485,7 +1511,10 @@ class ProductDetailPage {
     document.title = `${pick(d, 'name')} | ${isAr() ? 'بيبسي' : 'Pepsi'}`;
 
     const word = document.getElementById('detail-word');
-    if (word) word.textContent = pick(d, 'phrase');
+    if (word) {
+      word.textContent = pick(d, 'phrase');
+      fitText(word);
+    }
 
     if (this.pills) {
       this.pills.innerHTML = '';
