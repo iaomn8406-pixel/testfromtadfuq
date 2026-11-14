@@ -2362,6 +2362,78 @@ body.home .hero-showcase {
 }
 
 
+
+/* ==========================================================================
+   PHONE PERFORMANCE + EDGE-TO-EDGE
+   ========================================================================== */
+
+/* Whatever peeks out around the page (toolbar resize, system bars) is the flavor color, never black */
+html {
+  background: var(--flavor-bg-start);
+}
+
+/* The homepage stops painting once the spotlight fully covers it */
+.hero-showcase { transition: visibility 0s linear 0s; }
+.hero-showcase.spot-active {
+  visibility: hidden;
+  transition: visibility 0s linear 0.95s;
+}
+.hero-showcase.spot-active .rays-svg,
+.hero-showcase.spot-active .scroll-line::after { animation-play-state: paused; }
+
+/* Spotlight backdrop covers the LARGE viewport, so no gap appears while the
+   mobile address bar hides during scrolling */
+.sp-bg {
+  bottom: auto;
+  height: 100%;
+  height: 100lvh;
+  min-height: 100%;
+}
+
+@media (max-width: 860px) {
+  /* Blur behind glass is the most expensive effect on phone GPUs: use solid glass */
+  .nav-links,
+  .action-pill,
+  .flavor-dots-bar,
+  .flavor-badge-pill,
+  .story-card,
+  .modal-backdrop {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+  .action-pill { background: rgba(20, 26, 40, 0.82); }
+  .action-pill.primary { background: #ffffff; }
+  .flavor-dots-bar { background: rgba(8, 11, 18, 0.85); }
+
+  /* Flavor colors switch instantly: animating root variables restyles the whole page every frame */
+  :root { transition: none; }
+
+  /* Smaller ray textures (a 1300px rotating SVG is ~4000px on a 3x screen) */
+  .rays-container { width: 760px; height: 760px; }
+  .sp-rays { width: 620px; height: 620px; }
+  .rays-svg { animation-duration: 160s; }
+
+  /* Cheaper glows: soft gradients without an extra blur pass */
+  .can-item.active .can-image-container::before,
+  .detail-can-wrap::before { filter: none; }
+  .can-item { filter: none; transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s ease; }
+  .can-image-container img,
+  .can-item.active .can-image-container img { filter: drop-shadow(0 14px 18px rgba(0, 0, 0, 0.55)); }
+  .sp-can, .sp-fly-clone { filter: drop-shadow(0 24px 26px rgba(0, 0, 0, 0.5)); }
+  .outlined-phrase { text-shadow: none; }
+  .text-swap { animation-name: textSwapLite; }
+  @keyframes textSwapLite {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: none; }
+  }
+
+  /* Draw under the system navigation bar; keep controls above it */
+  .sp-nav { bottom: calc(14px + env(safe-area-inset-bottom)); }
+  .sp-layout { padding-bottom: calc(120px + env(safe-area-inset-bottom)); }
+  .detail-flavor-nav { padding-bottom: calc(16px + env(safe-area-inset-bottom)); }
+  .page-container, .story-container { padding-bottom: calc(80px + env(safe-area-inset-bottom)); }
+}
+
 /* Reduced Motion Support */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

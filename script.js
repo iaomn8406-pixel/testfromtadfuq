@@ -577,7 +577,8 @@ class ParticlesEngine {
     if (!this.canvas) return;
     this.ctx = this.canvas.getContext('2d', { alpha: true });
     this.particles = [];
-    this.numParticles = window.innerWidth < 640 ? 22 : 42;
+    this.isPhone = window.matchMedia('(max-width: 860px)').matches;
+    this.numParticles = window.innerWidth < 640 ? 14 : (this.isPhone ? 22 : 42);
     this.running = false;
     this.paused = false;
     this.frame = null;
@@ -625,9 +626,14 @@ class ParticlesEngine {
   start() {
     if (this.running || this.paused || document.hidden || prefersReducedMotion) return;
     this.running = true;
-    const loop = () => {
+    let last = 0;
+    const minGap = this.isPhone ? 32 : 0; // ~30fps on phones
+    const loop = (now) => {
       if (!this.running) return;
-      this.draw();
+      if (now - last >= minGap) {
+        last = now;
+        this.draw();
+      }
       this.frame = requestAnimationFrame(loop);
     };
     this.frame = requestAnimationFrame(loop);
@@ -1093,7 +1099,7 @@ class ProductSpotlight {
 
     document.body.classList.add('spotlight-open');
     this.carousel.hero && this.carousel.hero.classList.add('spot-active');
-    window.particlesEngine && window.particlesEngine.setPaused(false);
+    window.particlesEngine && window.particlesEngine.setPaused(true);
     this.el.setAttribute('aria-hidden', 'false');
     this.el.classList.add('is-open');
     this.el.scrollTop = 0;
@@ -1175,6 +1181,7 @@ class ProductSpotlight {
 
     this.el.classList.remove('is-open', 'is-closing');
     this.el.setAttribute('aria-hidden', 'true');
+    window.particlesEngine && window.particlesEngine.setPaused(false);
     document.body.classList.remove('spotlight-open');
     this.canHolder.classList.remove('hidden-can');
     this.isOpen = false;
